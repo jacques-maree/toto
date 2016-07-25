@@ -1,3 +1,56 @@
+
+
+ssh-keygen -t rsa -b 4096 -C "jacques.maree@spacebel.be"
+eval `ssh-agent -s`
+ssh-add ./id_rsa
+
+git init
+git clone https://github.com/jacques-maree/toto
+git clone gitolite@isis.cnes-isis.toulouse.atos.net:ccsds/CCSDS/COM.git
+git clone https://egscc.telespazio-vega.de/git/r/egscc/kernel.git
+
+git config --list
+
+git status
+git lola
+git log --oneline --decorate # list local branches
+
+git add toto.txt
+git commit -m "message"
+git add-commit # add and commit everything with auto message date
+git push origin master #
+git push # When push.default is set to 'matching', git will push local branches
+         #    to the remote branches that already exist with the same name.
+         # Since Git 2.0, Git defaults to the more conservative 'simple'
+         #    behavior, which only pushes the current branch to the corresponding
+         #    remote branch that 'git pull' uses to update the current branch.
+ 
+git remote
+git remote show origin
+
+git branch 
+git branch --remote # list remote branches
+git branch BBB # create branch
+git checkout BBB # go to branch
+git checkout -b BBB # create an d goto branch
+
+git diff <file> # view changes in the working tree not yet staged
+git diff --cached < file > # view the changes between the index and the last commit
+git diff HEAD <file > # view the changes in the working tree since the last commit
+git diff <commit1> <commit2> <file> # view changes between two commits
+git diff HEAD~1 HEAD toto.txt # example
+git diff 123132 456456 toto.txt # example
+
+git checkout toto.txt # undo unstaged changes
+git reset HEAD toto.txt # unstage changes !!! do next command
+git revert <commit> --no-edit # undo committed change
+git checkout --ours toto.txt
+git checkout --theirs toto.txt
+
+git tag -a <version> <commit> -m "message"
+
+
+
 CONFIGURATION (.git/config)
 ============================
 [core]
@@ -11,7 +64,7 @@ CONFIGURATION (.git/config)
 	autocrlf = false
 [gui]
 	wmstate = normal
-	geometry = 2000x1324+554+420 212 251
+	geometry = 2000x1324+1038+1127 212 251
 [remote "origin"]
 	url = https://github.com/jacques-maree/toto.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
@@ -21,10 +74,16 @@ CONFIGURATION (.git/config)
 [credential]
 	helper = store
 [alias]
-        lol = log --graph --decorate --pretty=oneline --abbrev-commit
-        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	add-commit = !git add -A && git commit -m \"`date`\"
 [color]
-        branch = auto
-        diff = auto
-        interactive = auto
-        status = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[http]
+	sslVerify = false
+	postBuffer = 524288000
+[push]
+	default = simple
